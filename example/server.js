@@ -19,18 +19,18 @@ function Server() {
     app.set('view engine', 'hbs');
 
     // create simple route to test our fake news
-    app.get('/', function(req, res) {
+    app.get('/proxy', function(req, res) {
 
         // respond to this request with our fake-new content embedded within the BBC News home page
         res.merge('fake-news', {
-            sourceUrl: 'http://www.bbc.co.uk/news',                             // external url to fetch
-            sourcePlaceholder: 'div[data-entityid="container-top-stories#1"]'   // css selector to inject our content into
+            sourceUrl: req.query.url,                             // external url to fetch
+            sourcePlaceholder: 'div[id="fake-collection-bar"]'   // css selector to inject our content into
         });
     });
 
     // start the server
-    app.listen(8080, function() {
-        console.log('Server running... Visit http://localhost:8080 in your browser');
+    app.listen(12345, function() {
+        console.log('Server running... Visit http://localhost:12345 in your browser');
     });
 }
 
