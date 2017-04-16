@@ -22,7 +22,7 @@ function Server() {
     app.get('/proxy', function(req, res) {
 
         // respond to this request with our fake-new content embedded within the BBC News home page
-        res.merge('fake-news', {
+        res.merge('fake-drag-drop-bar', {
             sourceUrl: req.query.url,                             // external url to fetch
             sourcePlaceholder: 'div[id="fake-collection-bar"]'   // css selector to inject our content into
         });
