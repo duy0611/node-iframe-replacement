@@ -47,6 +47,17 @@
 		
 		document.getElementById("tagon-user-collection-bar").style.display = "none";
 	}
+
+	function tagonFadeInPreload() {
+		var receiverWin = window.parent;
+		receiverWin.postMessage("fadeIn", 'http://localhost:8001');
+	}
+
+	function tagonFadeOutPreload() {
+		for(var anchors=document.getElementsByTagName("a"),i=0;i<anchors.length;i++){anchors[i].href="http://localhost:12345/proxy?url="+anchors[i].href};
+		var receiverWin = window.parent;
+		receiverWin.postMessage("fadeOut", 'http://localhost:8001');
+	}
 </script>
 <div id="tagon-user-collection-bar" style="display: none; height: 100px; background-color: #d7d7d7; box-shadow: 0 -1px 30px 0 rgba(0, 0, 0, 0.2); border: solid 1px #eaeaea;
               position: fixed; bottom: 0; left: 0; width: 100%; opacity: 0.8; text-align: center; vertical-align: middle; line-height: 100px; z-index: 10001"
