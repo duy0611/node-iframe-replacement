@@ -4,6 +4,15 @@ var path = require('path'),
     iframeReplacement = require('../index.js');
 
 function Server() {
+	
+	if(process.argv.length != 5) {
+		console.log('Not enough argumets (require 5): node example/server.js <SERVER_NAME:localhost> <SERVER_PORT:12345> <TARGET_SERVER_URL:http://localhost:8001>');
+		process.exit();
+	}
+	
+	process.env.SERVER_NAME = process.argv[2];
+	process.env.SERVER_PORT = process.argv[3];
+	process.env.TARGET_SERVER_URL = process.argv[4];
 
     // create an instance of express
     var app = express();
@@ -27,10 +36,12 @@ function Server() {
             sourcePlaceholder: 'div[id="fake-collection-bar"]'   // css selector to inject our content into
         });
     });
+	
+	
 
     // start the server
-    app.listen(12345, function() {
-        console.log('Server running... Visit http://localhost:12345 in your browser');
+    app.listen(process.env.SERVER_PORT, function() {
+        console.log('Server running... Visit http://' + process.env.SERVER_NAME + ':' + process.env.SERVER_PORT + ' in your browser');
     });
 }
 

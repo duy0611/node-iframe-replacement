@@ -5,7 +5,7 @@
 		return false;
 	}
 
-	function tagonDragStart(ev) {
+	function tagonDragStart(ev, targetServer) {
 		var dataObj = {
 			srcImg: '',
 			productLink: ''
@@ -19,6 +19,8 @@
 				dataObj.productLink = window.location.href;
 			}
 			ev.dataTransfer.setData("text", JSON.stringify(dataObj));
+			ev.dataTransfer.setData("targetServer", targetServer);
+			
 			document.getElementById("tagon-user-collection-bar").style.display = "initial";
 		}
 		else {
@@ -33,6 +35,7 @@
 	function tagonDrop(ev) {
 		ev.preventDefault();
 		var data = ev.dataTransfer.getData('text');
+		var targetServer = ev.dataTransfer.getData('targetServer');
 		
 		if(data) {
 			var receiverWin = window.parent;
@@ -40,7 +43,7 @@
 				// // Prevent any default browser behaviour.
 				// e.preventDefault();
 				// // Send a message with the text of the source to the new window.
-				receiverWin.postMessage(data, 'http://localhost:8001');
+				receiverWin.postMessage(data, targetServer);
 			}
 			sendMessage();
 		}
@@ -48,15 +51,17 @@
 		document.getElementById("tagon-user-collection-bar").style.display = "none";
 	}
 
-	function tagonFadeInPreload() {
+	function tagonFadeInPreload(targetServer) {
 		var receiverWin = window.parent;
-		receiverWin.postMessage("fadeIn", 'http://localhost:8001');
+		receiverWin.postMessage("fadeIn", targetServer);
 	}
 
-	function tagonFadeOutPreload() {
-		for(var anchors=document.getElementsByTagName("a"),i=0;i<anchors.length;i++){anchors[i].href="http://localhost:12345/proxy?url="+anchors[i].href};
+	function tagonFadeOutPreload(serverName, serverPort, targetServer) {
+		//change all link to point to proxy server
+		for(var anchors=document.getElementsByTagName("a"),i=0;i<anchors.length;i++){anchors[i].href="http://"+serverName+":"+serverPort+"/proxy?url="+anchors[i].href};
+		
 		var receiverWin = window.parent;
-		receiverWin.postMessage("fadeOut", 'http://localhost:8001');
+		receiverWin.postMessage("fadeOut", targetServer);
 	}
 </script>
 <div id="tagon-user-collection-bar" style="display: none; height: 100px; background-color: #d7d7d7; box-shadow: 0 -1px 30px 0 rgba(0, 0, 0, 0.2); border: solid 1px #eaeaea;
