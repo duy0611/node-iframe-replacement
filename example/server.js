@@ -49,7 +49,7 @@ function Server() {
 	if(enableHttps) {
 		var options = {
 		   key  : fs.readFileSync('/home/node/ssl/server-self.key'),
-		   cert : fs.readFileSync('/path/node/ssl/server-self.crt')
+		   cert : fs.readFileSync('/home/node/ssl/server-self.crt')
 		};
 		
 		https.createServer(options, app).listen(process.env.SERVER_PORT, function () {
