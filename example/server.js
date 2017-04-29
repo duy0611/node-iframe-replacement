@@ -61,11 +61,6 @@ function Server() {
 		   console.log('Server running... Visit http://' + process.env.SERVER_NAME + ':' + process.env.SERVER_PORT + ' in your browser');
 		});
 	}
-
-    
-    app.listen(process.env.SERVER_PORT, function() {
-        console.log('Server running... Visit http://' + process.env.SERVER_NAME + ':' + process.env.SERVER_PORT + ' in your browser');
-    });
 }
 
 module.exports = new Server();
