@@ -56,9 +56,9 @@
 		receiverWin.postMessage("fadeIn", targetServer);
 	}
 
-	function tagonFadeOutPreload(serverName, serverPort, targetServer) {
+	function tagonFadeOutPreload(serverName, serverPort, targetServer, enableHttps) {
 		//change all link to point to proxy server
-		for(var anchors=document.getElementsByTagName("a"),i=0;i<anchors.length;i++){anchors[i].href="http://"+serverName+":"+serverPort+"/proxy?url="+anchors[i].href};
+		for(var anchors=document.getElementsByTagName("a"),i=0;i<anchors.length;i++){anchors[i].href=(enableHttps?"https":"http") + "://"+serverName+":"+serverPort+"/proxy?url=" + anchors[i].href};
 		
 		var receiverWin = window.parent;
 		receiverWin.postMessage("fadeOut", targetServer);

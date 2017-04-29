@@ -2,17 +2,25 @@ var path = require('path'),
     express = require('express'),
     exphbs = require('express-handlebars'),
     iframeReplacement = require('../index.js');
+	
+var http = require('http'),
+	https = require('https');
+	
+var fs = require('fs');
 
 function Server() {
 	
-	if(process.argv.length != 5) {
-		console.log('Not enough argumets (require 5): node example/server.js <SERVER_NAME:localhost> <SERVER_PORT:12345> <TARGET_SERVER_URL:http://localhost:8001>');
+	if(process.argv.length != 6) {
+		console.log('Not enough argumets (require 5): node example/server.js <SERVER_NAME:localhost> <SERVER_PORT:12345> <TARGET_SERVER_URL:http://localhost:8001> <ENABLE_HTTPS:TRUE:FALSE>');
 		process.exit();
 	}
 	
 	process.env.SERVER_NAME = process.argv[2];
 	process.env.SERVER_PORT = process.argv[3];
 	process.env.TARGET_SERVER_URL = process.argv[4];
+	process.env.ENABLE_HTTPS = process.argv[5];
+	
+	var enableHttps = process.env.ENABLE_HTTPS == 'TRUE' ? true : false;
 
     // create an instance of express
     var app = express();
@@ -37,9 +45,24 @@ function Server() {
         });
     });
 	
-	
+	// start the server
+	if(enableHttps) {
+		var options = {
+		   key  : fs.readFileSync('/home/node/ssl/server-self.key'),
+		   cert : fs.readFileSync('/path/node/ssl/server-self.crt')
+		};
+		
+		https.createServer(options, app).listen(process.env.SERVER_PORT, function () {
+		   console.log('Server running... Visit https://' + process.env.SERVER_NAME + ':' + process.env.SERVER_PORT + ' in your browser');
+		});
+	}
+	else {
+		http.createServer(app).listen(process.env.SERVER_PORT, function () {
+		   console.log('Server running... Visit http://' + process.env.SERVER_NAME + ':' + process.env.SERVER_PORT + ' in your browser');
+		});
+	}
 
-    // start the server
+    
     app.listen(process.env.SERVER_PORT, function() {
         console.log('Server running... Visit http://' + process.env.SERVER_NAME + ':' + process.env.SERVER_PORT + ' in your browser');
     });
