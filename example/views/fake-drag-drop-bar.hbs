@@ -23,6 +23,19 @@
 			
 			document.getElementById("tagon-user-collection-bar").style.display = "initial";
 		}
+		else if (ev.target.nodeName === 'A') {
+			dataObj.productLink = ev.target.href;
+			if(ev.target.getElementsByTagName('img')[0] != undefined) {
+				dataObj.srcImg = $(ev.target).find('img').first()[0].src;
+
+				ev.dataTransfer.setData("text", JSON.stringify(dataObj));
+				ev.dataTransfer.setData("targetServer", targetServer);
+
+				document.getElementById("tagon-user-collection-bar").style.display = "initial";
+			} else {
+				alert("Can only drag product image!");
+			}
+		}
 		else {
 			alert("CAN ONLY DRAG IMAGE!!!");
 		}
