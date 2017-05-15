@@ -1,4 +1,70 @@
 <script type="text/javascript">
+	function tagonAllowDrop(ev) {
+		ev.preventDefault();
+		ev.dataTransfer.dropEffect = 'copy';  // See the section on the DataTransfer object.
+		return false;
+	}
+
+	function tagonDragStart(ev, targetServer) {
+		var dataObj = {
+			srcImg: '',
+			productLink: ''
+		};
+		if(ev.target.nodeName === 'IMG') {
+			dataObj.srcImg = ev.target.src;
+			if(ev.target.parentNode != null && ev.target.parentNode.nodeName === 'A') {
+				dataObj.productLink = ev.target.parentNode.href;
+			}
+			else {
+				dataObj.productLink = window.location.href;
+			}
+			ev.dataTransfer.setData("text", JSON.stringify(dataObj));
+			ev.dataTransfer.setData("targetServer", targetServer);
+			
+			document.getElementById("tagon-user-collection-bar").style.display = "initial";
+		}
+		else if (ev.target.nodeName === 'A') {
+			dataObj.productLink = ev.target.href;
+			if(ev.target.getElementsByTagName('img')[0] != undefined) {
+				dataObj.srcImg = $(ev.target).find('img').first()[0].src;
+
+				ev.dataTransfer.setData("text", JSON.stringify(dataObj));
+				ev.dataTransfer.setData("targetServer", targetServer);
+
+				document.getElementById("tagon-user-collection-bar").style.display = "initial";
+			}
+			else {
+				alert("CAN ONLY DRAG PRODUCT IMAGE!!!");
+			}
+		}
+		else {
+			alert("CAN ONLY DRAG PRODUCT IMAGE!!!");
+		}
+	}
+
+	function tagonDragEnd(ev) {
+		document.getElementById("tagon-user-collection-bar").style.display = "none";
+	}
+
+	function tagonDrop(ev) {
+		ev.preventDefault();
+		var data = ev.dataTransfer.getData('text');
+		var targetServer = ev.dataTransfer.getData('targetServer');
+		
+		if(data) {
+			var receiverWin = window.parent;
+			function sendMessage(e) {
+				// // Prevent any default browser behaviour.
+				// e.preventDefault();
+				// // Send a message with the text of the source to the new window.
+				receiverWin.postMessage(data, targetServer);
+			}
+			sendMessage();
+		}
+		
+		document.getElementById("tagon-user-collection-bar").style.display = "none";
+	}
+
 	function tagonFadeInPreload(targetServer) {
 		var receiverWin = window.parent;
 		receiverWin.postMessage("fadeIn", targetServer);
