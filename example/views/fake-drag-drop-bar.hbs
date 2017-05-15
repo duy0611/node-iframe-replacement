@@ -72,14 +72,81 @@
 
 	function tagonFadeOutPreload(serverName, serverPort, targetServer, enableHttps) {
 		//change all link to point to proxy server
-		for(var anchors=document.getElementsByTagName("a"),i=0;i<anchors.length;i++){anchors[i].href=(enableHttps?"https":"http") + "://"+serverName+":"+serverPort+"/proxy?url=" + anchors[i].href};
-		
+		for (var anchors = document.getElementsByTagName("a"), i = 0; i < anchors.length; i++) { anchors[i].href = (enableHttps ? "https" : "http") + "://" + serverName + ":" + serverPort + "/proxy?url=" + anchors[i].href };
+
 		var receiverWin = window.parent;
 		receiverWin.postMessage("fadeOut", targetServer);
 	}
+
+</script>
+<script>
+	window.onload = function () {
+		if (!window.jQuery) {
+			var newScriptjQueryCore = document.createElement('script');
+			newScriptjQueryCore.src = "//code.jquery.com/jquery-3.2.1.min.js";
+			newScriptjQueryCore.type = "text/javascript";
+			document.getElementsByTagName('head')[0].appendChild(newScriptjQueryCore);
+			newScriptjQueryCore.onload = initDragDrop;
+		} else {
+			initDragDrop();
+		}
+	};
+
+	function initDragDrop() {
+		$.getScript("https://code.jquery.com/ui/1.12.1/jquery-ui.min.js", function () {
+			$.getScript("https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js", function () {
+				$('img').draggable({
+					helper: 'clone',
+					start: function () {
+						document.getElementById("tagon-user-collection-bar").style.display = "initial";
+						if ($(this).parent() !== null && $(this).parent().is('a')){
+							$(this).attr('data-product-link', $(this).parent().attr('href'));
+						} else {
+							$(this).attr('data-product-link', window.location.href);
+						}
+						$(this).attr('data-src-img', $(this).attr('src'));
+					},
+					stop: function() {
+						document.getElementById("tagon-user-collection-bar").style.display = "none";
+					}
+				});
+				$('a').draggable({
+					helper: 'clone',
+					start: function () {
+						$(this).attr('data-product-link', $(this).attr('href'));
+						if ($(this).find('img').length > 0) {
+							$(this).attr('data-src-img', $(this).find('img')[0].attr('src'));
+							document.getElementById("tagon-user-collection-bar").style.display = "initial";							
+						} else {
+							alert("Can only drag product image!");
+						}
+					},
+					stop: function(){
+						document.getElementById("tagon-user-collection-bar").style.display = "none";
+					}
+				});
+				$('#tagon-user-collection-bar').droppable({
+					drop: function(event,ui) {
+						var dataObj = {
+							srcImg: '',
+							productLink: ''
+						}
+						dataObj.srcImg = ui.draggable.attr('data-src-img');
+						dataObj.productLink = ui.draggable.attr('data-product-link');
+						var dataTransfer = JSON.stringify(dataObj);
+						var targetServer = ui.draggable.attr('data-target-server');
+						console.log(dataTransfer);
+						window.parent.postMessage(dataTransfer, targetServer);
+					}
+				});
+			});
+		});
+	}
+
 </script>
 <div id="tagon-user-collection-bar" style="display: none; height: 100px; background-color: #d7d7d7; box-shadow: 0 -1px 30px 0 rgba(0, 0, 0, 0.2); border: solid 1px #eaeaea;
               position: fixed; bottom: 0; left: 0; width: 100%; opacity: 0.8; text-align: center; vertical-align: middle; line-height: 100px; z-index: 10001"
-	ondrop="tagonDrop(event)" ondragover="tagonAllowDrop(event)">
-    <span style="font-weight: bold; font-family: FuturaBk; font-size: 14px; letter-spacing: 4.7px; color: #d81b60; opacity: 1">DROP HERE</span>
+ >
+ <!-- ondrop="tagonDrop(event)" ondragover="tagonAllowDrop(event)" -->
+	<span style="font-weight: bold; font-family: FuturaBk; font-size: 14px; letter-spacing: 4.7px; color: #d81b60; opacity: 1">DROP HERE</span>
 </div>
