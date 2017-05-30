@@ -455,7 +455,6 @@ var TagOnDragDropTouch;
 				dataObj.productLink = window.location.href;
 			}
 			if(ev.target.getElementsByTagName('img')[0] !== undefined) {
-				alert('1');
 				dataObj.srcImg = $(ev.target).find('img').first()[0].src;
 
 				ev.dataTransfer.setData("text", JSON.stringify(dataObj));
@@ -464,7 +463,6 @@ var TagOnDragDropTouch;
 				document.getElementById("tagon-user-collection-bar").style.display = "initial";
 			}
 			else if(ev.target.getAttribute('data-src')){
-				alert('2');
 				dataObj.srcImg = 'http://' + pattern + '/' + ev.target.getAttribute('data-src');
 
 				ev.dataTransfer.setData("text", JSON.stringify(dataObj));
@@ -473,8 +471,21 @@ var TagOnDragDropTouch;
 				document.getElementById("tagon-user-collection-bar").style.display = "initial";
 			}
 			else if(ev.target.getAttribute('src')){
-				alert('3');
 				dataObj.srcImg = ev.target.getAttribute('src');
+
+				ev.dataTransfer.setData("text", JSON.stringify(dataObj));
+				ev.dataTransfer.setData("targetServer", targetServer);
+
+				document.getElementById("tagon-user-collection-bar").style.display = "initial";
+			}
+			else {
+				alert("CAN ONLY DRAG PRODUCT IMAGE from A!!!");
+			}
+		}
+		else if (ev.target.nodeName === 'DIV'){
+			dataObj.productLink = window.location.href;
+			if(ev.target.getElementsByTagName('img')[0] !== undefined) {
+				dataObj.srcImg = $(ev.target).find('img').first()[0].src;
 
 				ev.dataTransfer.setData("text", JSON.stringify(dataObj));
 				ev.dataTransfer.setData("targetServer", targetServer);
