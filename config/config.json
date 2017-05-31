@@ -1,0 +1,16 @@
+{
+  "jsConfigMap": {
+    "poxi.vn": {
+      "externalScripts": [
+        "./config/js_file_1.js",
+        "./config/js_file.2.js"  
+      ]
+    },
+    "shop_url_1": {
+      "externalScripts": [
+        "./config/js_file_1.js",
+        "./config/js_file.2.js"  
+      ]
+    }
+  }
+}
