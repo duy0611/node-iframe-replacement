@@ -109,7 +109,14 @@ function tagonFadeInPreload(targetServer) {
 	receiverWin.postMessage("fadeIn", targetServer);
 }
 
-function tagonFadeOutPreload(serverName, serverPort, targetServer, enableHttps) {
+function tagonFadeOutPreload(targetServer) {
 	var receiverWin = window.parent;
 	receiverWin.postMessage("fadeOut", targetServer);
+}
+
+function tagonJqueryLoaded(){
+	tagonJquery('.draggable').draggable({
+		revert: "invalid",
+		stack: ".draggable"
+	});
 }
