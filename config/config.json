@@ -6,10 +6,9 @@
         "./config/js_file.2.js"  
       ]
     },
-    "shop_url_1": {
+    "20again.vn": {
       "externalScripts": [
-        "./config/js_file_1.js",
-        "./config/js_file.2.js"  
+        "./config/removeMagicZoom.js"
       ]
     }
   }
