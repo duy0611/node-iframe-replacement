@@ -9,13 +9,23 @@
     "20again.vn": {
       "externalScripts": [
         "./config/removeMagicZoom.js",
-	"./config/20again/postScript.js"
+		"./config/20again/20again.js"
       ]
     },
 	"alessandroluigi.vn": {
       "externalScripts": [
         "./config/removeCloudZoom.js"
       ]
-    }
+    },
+	"31boutique.com.vn": {
+      "externalScripts": [
+        "./config/31bostique/postScript.js"
+      ]
+    },
+	"3cevietnam.com.vn":{
+	  "externalScripts": [
+        "./config/3cevietnam/postScript.js"
+      ]	
+	}
   }
 }
