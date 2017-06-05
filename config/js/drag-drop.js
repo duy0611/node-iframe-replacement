@@ -102,7 +102,7 @@ function tagonDragEnd(ev) {
 function tagonDrop(ev) {
 	ev.preventDefault();
 	var data = ev.dataTransfer.getData('text');
-	/*var targetServer = ev.dataTransfer.getData('targetServer');
+	var targetServer = ev.dataTransfer.getData('targetServer');
 	
 	if(data) {
 		var receiverWin = window.parent;
@@ -114,8 +114,8 @@ function tagonDrop(ev) {
 			receiverWin.postMessage(data, targetServer);
 		}
 		sendMessage();
-	}*/
-	alert(data);
+	}
+	//alert(data);
 	
 	document.getElementById("tagon-user-collection-bar").style.display = "none";
 }
