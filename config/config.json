@@ -9,7 +9,7 @@
     "20again.vn": {
       "externalScripts": [
         "./config/removeMagicZoom.js",
-		"./config/20again/20again.js"
+		"./config/20again/postScript.js"
       ]
     },
 	"alessandroluigi.vn": {
