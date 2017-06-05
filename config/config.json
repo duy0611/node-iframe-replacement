@@ -10,6 +10,11 @@
       "externalScripts": [
         "./config/removeMagicZoom.js"
       ]
+    },
+	"alessandroluigi.vn": {
+      "externalScripts": [
+        "./config/removeCloudZoom.js"
+      ]
     }
   }
 }
