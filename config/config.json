@@ -9,7 +9,7 @@
     "20again.vn": {
       "externalScripts": [
         "./config/removeMagicZoom.js",
-		"./config/20again/postScript.js"
+		"./config/20again/20again.js"
       ]
     },
 	"alessandroluigi.vn": {
@@ -25,6 +25,11 @@
 	"3cevietnam.com.vn":{
 	  "externalScripts": [
         "./config/3cevietnam/postScript.js"
+      ]	
+	},
+	"freelancerstores.vn":{
+	  "externalScripts": [
+        "./config/ainosofia/postScript.js"
       ]	
 	}
   }
