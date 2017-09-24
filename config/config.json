@@ -6,11 +6,31 @@
         "./config/js_file.2.js"  
       ]
     },
-    "shop_url_1": {
+    "20again.vn": {
       "externalScripts": [
-        "./config/js_file_1.js",
-        "./config/js_file.2.js"  
+        "./config/removeMagicZoom.js",
+		"./config/20again/20again.js"
       ]
-    }
+    },
+	"alessandroluigi.vn": {
+      "externalScripts": [
+        "./config/removeCloudZoom.js"
+      ]
+    },
+	"31boutique.com.vn": {
+      "externalScripts": [
+        "./config/31bostique/postScript.js"
+      ]
+    },
+	"3cevietnam.com.vn":{
+	  "externalScripts": [
+        "./config/3cevietnam/postScript.js"
+      ]	
+	},
+	"freelancerstores.vn":{
+	  "externalScripts": [
+        "./config/ainosofia/postScript.js"
+      ]	
+	}
   }
 }

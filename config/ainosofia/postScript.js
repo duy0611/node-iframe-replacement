@@ -1,10 +1,23 @@
-function tagonAllowDrop(ev) {
-	ev.preventDefault();
-	ev.dataTransfer.dropEffect = 'copy';  // See the section on the DataTransfer object.
-	return false;
+function fixAinosofia(){
+	var el = tagonJquery("div.hover");
+	el.css("width", "0");
+	el.css("height", "0");
+	var getParam = tagonJquery("img")[0].getAttribute("ondragstart");
+	var params = getParam.split("tagonDragStart(")[1].split(")")[0].split(", ");
+	var newFunc = "overrideDragStart("+ params[0]+ ", "+ params[1]+")";
+	tagonJquery('img').attr('ondragstart', newFunc);
+	tagonJquery('a').attr('ondragstart', newFunc);
+	 tagonJquery('img').attr('onclick', 'tagonClick(event)');
 }
 
-function tagonDragStart(ev, targetServer) {
+function tagonClick(event){
+	var findHoverDiv = tagonJquery(event.target.parentNode).nextAll("div.hover").first();
+	if(findHoverDiv){
+		window.location.href = tagonJquery(findHoverDiv).find("a:first")[0].href;
+	}
+}
+
+function overrideDragStart(ev, targetServer){
 	var dataObj = {
 		srcImg: '',
 		productLink: ''
@@ -39,7 +52,14 @@ function tagonDragStart(ev, targetServer) {
 				}
 			}
 			if(!dataObj.productLink){
-				dataObj.productLink = window.location.href;
+				var findHoverDiv = tagonJquery(ev.target.parentNode).nextAll("div.hover").first();
+				if(findHoverDiv){
+					dataObj.productLink = tagonJquery(findHoverDiv).find("a:first")[0].href;
+				}
+				else{
+					dataObj.productLink = window.location.href;					
+				}
+				console.log(dataObj.productLink);
 			}
 		}
 		ev.dataTransfer.setData("text", JSON.stringify(dataObj));
@@ -55,7 +75,7 @@ function tagonDragStart(ev, targetServer) {
 			dataObj.productLink = window.location.href;
 		}
 		if(ev.target.getElementsByTagName('img')[0] !== undefined) {
-			dataObj.srcImg = $(ev.target).find('img').first()[0].src;
+			dataObj.srcImg = tagonJquery(ev.target).find('img').first()[0].src;
 			ev.dataTransfer.setData("text", JSON.stringify(dataObj));
 			ev.dataTransfer.setData("targetServer", targetServer);
 			document.getElementById("tagon-user-collection-bar").style.display = "initial";
@@ -73,7 +93,7 @@ function tagonDragStart(ev, targetServer) {
 			document.getElementById("tagon-user-collection-bar").style.display = "initial";
 		}
 		else if(ev.target.getElementsByTagName('div')[0] !== undefined) {
-			dataObj.srcImg = $(ev.target).find('div').first()[0].src ? $(ev.target).find('div').first()[0].src : ('http://' + pattern + ($(ev.target).find('div').first()[0].getAttribute('data-src').charAt(0)==='/'? "" : "/") + $(ev.target).find('div').first()[0].getAttribute('data-src'));
+			dataObj.srcImg = tagonJquery(ev.target).find('div').first()[0].src ? tagonJquery(ev.target).find('div').first()[0].src : ('http://' + pattern + (tagonJquery(ev.target).find('div').first()[0].getAttribute('data-src').charAt(0)==='/'? "" : "/") + tagonJquery(ev.target).find('div').first()[0].getAttribute('data-src'));
 			ev.dataTransfer.setData("text", JSON.stringify(dataObj));
 			ev.dataTransfer.setData("targetServer", targetServer);
 			document.getElementById("tagon-user-collection-bar").style.display = "initial";
@@ -82,50 +102,8 @@ function tagonDragStart(ev, targetServer) {
 			alert("CAN ONLY DRAG PRODUCT IMAGE from A!!!");
 		}
 	}
-	/*else {
-		if(ev.target.getElementsByTagName('img')[0] != undefined) {
-			dataObj.srcImg = $(ev.target).find('img').first()[0].src;
-			ev.dataTransfer.setData("text", JSON.stringify(dataObj));
-			ev.dataTransfer.setData("targetServer", targetServer);
-			document.getElementById("tagon-user-collection-bar").style.display = "initial";
-		}
-		else {
-			alert("CAN ONLY DRAG PRODUCT IMAGE!!!");
-		}
-	}*/
 }
 
-function tagonDragEnd(ev) {
-	document.getElementById("tagon-user-collection-bar").style.display = "none";
-}
-
-function tagonDrop(ev) {
-	ev.preventDefault();
-	var data = ev.dataTransfer.getData('text');
-	var targetServer = ev.dataTransfer.getData('targetServer');
-	
-	if(data) {
-		var receiverWin = window.parent;
-		function sendMessage(e) {
-			// Prevent any default browser behaviour.
-			// e.preventDefault();
-			// Send a message with the text of the source to the new window.
-			// console.log(data);
-			receiverWin.postMessage(data, targetServer);
-		}
-		sendMessage();
-	}
-	//alert(data);
-	
-	document.getElementById("tagon-user-collection-bar").style.display = "none";
-}
-
-function tagonFadeInPreload(targetServer) {
-	var receiverWin = window.parent;
-	receiverWin.postMessage("fadeIn", targetServer);
-}
-
-function tagonFadeOutPreload(targetServer) {
-	var receiverWin = window.parent;
-	receiverWin.postMessage("fadeOut", targetServer);
+window.onload=function(){
+ fixAinosofia();
 }
