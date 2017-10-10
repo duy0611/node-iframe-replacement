@@ -110,7 +110,7 @@ function tagonDrop(ev) {
 			// Prevent any default browser behaviour.
 			// e.preventDefault();
 			// Send a message with the text of the source to the new window.
-			// console.log(data);
+			console.log(data);
 			receiverWin.postMessage(data, targetServer);
 		}
 		sendMessage();
@@ -128,4 +128,38 @@ function tagonFadeInPreload(targetServer) {
 function tagonFadeOutPreload(targetServer) {
 	var receiverWin = window.parent;
 	receiverWin.postMessage("fadeOut", targetServer);
+}
+
+function tagonJqueryLoaded(){
+	/*if(tagonJquery('.draggable')) {
+		tagonJquery('.draggable').draggable({
+			revert: "invalid",
+			stack: ".draggable"
+		});
+	}*/
+	
+	$( document ).ajaxComplete(function() {
+		console.log( "Triggered ajaxComplete handler." );
+		for(var e=document.getElementsByTagName("a"),t=0; t<e.length; t++) {
+			if(e[t].href.indexOf(PROXY_SERVER) < 0) {
+				e[t].href=PROXY_SERVER + "/proxy?url=" + e[t].href;
+			}			
+			//e[t].onclick="";
+		}
+		  
+		// insert drag-drop event on images
+		$('img').attr('ondragstart', 'tagonDragStart(event, ' + '"' + TARGET_SERVER + '"' + ')');
+		$('img').attr('ondragend', 'tagonDragEnd(event)');
+		$('img').attr('draggable', 'true');
+
+		$('a').attr('ondragstart', 'tagonDragStart(event, ' + '"' + TARGET_SERVER + '"' + ')');
+		$('a').attr('ondragend', 'tagonDragEnd(event)');
+		$('a').attr('draggable', 'true');
+		
+		//$('.hoverMask').css('display', 'none');
+	});
+	
+	$( document ).ajaxSuccess(function() {
+		console.log( "Triggered ajaxSuccess handler." );
+	});
 }

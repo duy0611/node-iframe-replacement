@@ -37,7 +37,8 @@
     "express-handlebars": "^3.0.0",
     "is-url": "^1.2.2",
     "node-cache": "^3.2.1",
-    "request-promise": "^3.0.0"
+    "request-promise": "^3.0.0",
+	"body-parser": "^1.17.2"
   },
   "devDependencies": {
     "eslint": "^3.12.2",

@@ -8,6 +8,10 @@ var http = require('http'),
 	
 var fs = require('fs');
 
+var bodyParser = require('body-parser');
+var request = require('request');
+
+
 function Server() {
 	
 	if(process.argv.length != 6) {
@@ -27,6 +31,9 @@ function Server() {
 
     // add iframe replacement to express as middleware (adds res.merge method)
     app.use(iframeReplacement);
+	
+	app.use(bodyParser.json()); // for parsing application/json
+	app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
     // add handlebars view engine (you can use any)
     app.engine('hbs', exphbs());
@@ -44,6 +51,30 @@ function Server() {
             sourcePlaceholder: 'div[id="fake-collection-bar"]'   // css selector to inject our content into
         });
     });
+	
+	app.post('/proxy', function(req, res) {
+		
+		var headers = {
+			'X-Requested-With': 'XMLHttpRequest'
+		};
+		
+		console.log(req.body);
+		
+		var options = {
+			url: req.query.url,
+			method: 'POST',
+			headers: headers,
+			body: JSON.stringify(req.body)
+		};
+		
+		request(options, function(err, response, body) {
+			res.end(body);
+		});
+	});
+	
+	app.post('/redirect', function(req, res) {
+		res.redirect(301, req.query.url);
+	});
 	
 	// create simple route to test our fake news
     app.get('/load', function(req, res) {
