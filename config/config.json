@@ -2,35 +2,34 @@
   "jsConfigMap": {
     "poxi.vn": {
       "externalScripts": [
-        "./config/js_file_1.js",
-        "./config/js_file.2.js"  
+        
       ]
     },
     "20again.vn": {
       "externalScripts": [
         "./config/removeMagicZoom.js",
-		"./config/20again/20again.js"
+        "./config/20again/postScript.js"
       ]
     },
-	"alessandroluigi.vn": {
+    "alessandroluigi.vn": {
       "externalScripts": [
         "./config/removeCloudZoom.js"
       ]
     },
-	"31boutique.com.vn": {
+    "31boutique.com.vn": {
       "externalScripts": [
         "./config/31bostique/postScript.js"
       ]
     },
-	"3cevietnam.com.vn":{
-	  "externalScripts": [
+    "3cevietnam.com.vn": {
+      "externalScripts": [
         "./config/3cevietnam/postScript.js"
-      ]	
-	},
-	"freelancerstores.vn":{
-	  "externalScripts": [
+      ]
+    },
+    "freelancerstores.vn": {
+      "externalScripts": [
         "./config/ainosofia/postScript.js"
-      ]	
-	}
+      ]
+    }
   }
 }
